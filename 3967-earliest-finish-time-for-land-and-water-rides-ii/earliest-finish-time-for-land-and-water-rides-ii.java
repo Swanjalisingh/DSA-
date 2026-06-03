@@ -1,35 +1,25 @@
 class Solution {
 
-    public int earliestFinishTime(int[] landStart, int[] landDur,
-                    int[] waterStart, int[] waterDur) {
+    private int findFinishTime(int[] start1, int[] duration1, int[] start2, int[] duration2) {
 
-        // O(n + m)
-        int bestLandFinish = Integer.MAX_VALUE;
-        int bestWaterFinish = Integer.MAX_VALUE;
-        int ans = Integer.MAX_VALUE;
-
-        // Earliest possible finish among all land rides.
-        for (int i = 0; i < landStart.length; i++) {
-            bestLandFinish = Math.min(bestLandFinish, landStart[i] + landDur[i]);
+        int finish1 = Integer.MAX_VALUE;
+        for (int i = 0; i < start1.length; i++) {
+            finish1 = Math.min(finish1, start1[i] + duration1[i]);
         }
 
-        // Try every water ride after the earliest-finishing land ride.
-        for (int i = 0; i < waterStart.length; i++) {
-            int finishTime = Math.max(bestLandFinish, waterStart[i]) + waterDur[i];
-            ans = Math.min(ans, finishTime);
+        int finish2 = Integer.MAX_VALUE;
+        for (int i = 0; i < start2.length; i++) {
+            finish2 = Math.min(finish2, Math.max(finish1, start2[i]) + duration2[i]);
         }
 
-        // Earliest possible finish among all water rides.
-        for (int i = 0; i < waterStart.length; i++) {
-            bestWaterFinish = Math.min(bestWaterFinish, waterStart[i] + waterDur[i]);
-        }
+        return finish2;
+    }
 
-        // Try every land ride after the earliest-finishing water ride.
-        for (int i = 0; i < landStart.length; i++) {
-            int finishTime = Math.max(bestWaterFinish, landStart[i]) + landDur[i];
-            ans = Math.min(ans, finishTime);
-        }
+    public int earliestFinishTime(int[] landStartTime, int[] landDuration, int[] waterStartTime, int[] waterDuration) {
+        int pehleLand_FirWater = findFinishTime(landStartTime, landDuration, waterStartTime, waterDuration);
 
-        return ans;
+        int pehleWater_FirLand = findFinishTime(waterStartTime, waterDuration, landStartTime, landDuration);
+
+        return Math.min(pehleLand_FirWater, pehleWater_FirLand);
     }
 }
