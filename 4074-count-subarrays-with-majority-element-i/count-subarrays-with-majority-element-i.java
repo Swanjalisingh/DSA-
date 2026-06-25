@@ -8,10 +8,12 @@ class Solution {
 
             for (int j = i; j < n; j++) {   // j loop condition should be j < n
                 if (nums[j] == target) {
-                    count++;
+                    count= count+1;
+                }else{
+                    count = count-1;
                 }
 
-                if (count > (j - i + 1) / 2) {
+                if (count > 0) {
                     result++;
                 }
             }
