@@ -2,26 +2,24 @@ import java.util.*;
 
 class Solution {
     public int removeCoveredIntervals(int[][] intervals) {
-
-        Arrays.sort(intervals, new Comparator<int[]>() {
-            public int compare(int[] a, int[] b) {
-                if (a[0] == b[0]) {
-                    return b[1] - a[1];
-                }
-                return a[0] - b[0];
-            }
+        int n = intervals.length;
+        Arrays.sort(intervals , (a ,b)->{
+            if(a[0] == b[0])
+             return b[1]-a[1];
+             return a[0]-b[0];
         });
-
-        int count = 0;
-        int maxEnd = 0;
-
-        for (int[] interval : intervals) {
-            if (interval[1] > maxEnd) {
-                count++;
-                maxEnd = interval[1];
-            }
+        int remove =0;
+        int prev =0;
+        for(int i=1; i<n; i++){
+            int startinvl = intervals[i][0];
+            int endinvl = intervals[i][1];
+            int pstart = intervals[prev][0];
+            int pend = intervals[prev][1];
+            if (startinvl >= pstart && endinvl <= pend)
+            remove++;
+            else prev =i;
         }
-
-        return count;
+        return n - remove;
+       
     }
 }
