@@ -6,11 +6,10 @@ class Solution {
         return smallestNumber(n + 1, t);
     }
 
-    public int product(int n) {
-        if (n == 0) {
+    public int product(int n){
+        if(n==0){
             return 1;
         }
-
-        return (n % 10) * product(n / 10);
+        return (n%10)*product(n/10);
     }
 }
