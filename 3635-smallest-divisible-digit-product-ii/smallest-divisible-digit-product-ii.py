@@ -55,36 +55,32 @@ class Solution(object):
         """
         digits = list(map(int, s))
         n = len(digits)
-        # Quick check if already zero-free
+   
         if all(d != 0 for d in digits):
             return s
 
         i = 0
         while i < n:
             if digits[i] == 0:
-                # Need to carry up from i
+       
                 j = i
                 while j >= 0 and digits[j] == 9:
                     j -= 1
                 if j < 0:
-                    # All were 9 up to i => we must prepend '1' and set rest to '1'
+             
                     return '1' + ('1'*n)
                 digits[j] += 1
-                # set all from j+1 ... end to '1'
+            
                 for k in range(j+1, n):
                     digits[k] = 1
                 break
             i += 1
 
-        # final pass: if any 0 remains, set to 1
+     
         for idx in range(n):
             if digits[idx] == 0:
                 digits[idx] = 1
         return "".join(map(str, digits))
-
-    # -------------------------------------------------------
-    #  2) Factor t into (a,b,c,d) where t = 2^a * 3^b * 5^c * 7^d
-    # -------------------------------------------------------
     def _factorize_2_3_5_7(self, t):
         a = b = c = d = 0
         for prime in [2, 3, 5, 7]:
@@ -99,10 +95,7 @@ class Solution(object):
             return -1, -1, -1, -1
         return a, b, c, d
 
-    # -------------------------------------------------------
-    #  3) BFS to build cost_table[x][y][z][w] = minimal # digits
-    #     to get coverage >= x,y,z,w from digits [1..9].
-    # -------------------------------------------------------
+   
     def _build_min_digit_cost(self, maxA, maxB, maxC, maxD):
         INF = float('inf')
         cost = [[[[INF]*(maxD+1) for _ in range(maxC+1)]
@@ -142,10 +135,7 @@ class Solution(object):
                     q.append((nx, ny, nz, nw))
         return cost
 
-    # -------------------------------------------------------
-    #  4) Build the smallest zero-free number of length=length_target
-    #     that has coverage >= (a,b,c,d).
-    # -------------------------------------------------------
+   
     def _buildSmallest(self, length_target, a, b, c, d, cost_table):
         INF = float('inf')
         res = []
@@ -154,8 +144,7 @@ class Solution(object):
             placed_digit = None
             for dgt in range(1, 10):
                 na, nb, nc, nd = self._subFactor(A,B,C,D,dgt)  # <-- CLAMPS leftover to >=0
-                # check if feasible
-                # i.e. can the leftover be covered in the remaining (length_target - i - 1) digits?
+                
                 if cost_table[na][nb][nc][nd] <= (length_target - i - 1):
                     placed_digit = dgt
                     A, B, C, D = na, nb, nc, nd
@@ -164,16 +153,11 @@ class Solution(object):
                 return None
             res.append(str(placed_digit))
 
-        # At the end, leftover must be fully covered => cost_table[A][B][C][D] == 0
+       
         if cost_table[A][B][C][D] != 0:
             return None
 
         return "".join(res)
-
-    # -------------------------------------------------------
-    #  5) Build next bigger/equal of same length as num
-    #     that has coverage >= (a,b,c,d).
-    # -------------------------------------------------------
     def _buildNextBiggerOrEqual(self, num, a, b, c, d, cost_table):
         digits = list(map(int, num))
         L = len(digits)
@@ -203,9 +187,7 @@ class Solution(object):
             return None
         return "".join(map(str, ans))
 
-    # -------------------------------------------------------
-    #  6) Helper: subtract digit's prime factors, clamp to zero.
-    # -------------------------------------------------------
+    
     def _subFactor(self, A, B, C, D, digit):
         """
         Subtract the digit's prime factors from leftover coverage, 
@@ -235,13 +217,9 @@ class Solution(object):
                 max(C - fc, 0),
                 max(D - fd, 0))
 
-#
-# If you want to do a quick test:
-#
+
+
 if __name__ == "__main__":
     sol = Solution()
-
-    # Provided example that was failing:
     print(sol.smallestNumber("12355", 50))  
-    # Expected => "12355"
-    # Over-coverage fix yields "12355" now.
+  
