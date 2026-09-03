@@ -33,7 +33,7 @@ pair<bool , int> dfs(TreeNode*root , vector<int> &ans){
 int kthLargestPerfectSubtree(TreeNode* root, int k) {
         vector<int> ans;
         dfs(root , ans);
-        sort(ans.rbegin(), ans.rend());
+        sort(ans.begin(), ans.end() , greater<int>());
 
         if (ans.size() < k)
             return -1;
