@@ -15,12 +15,7 @@ class Solution {
             ans[i] = new String(grid[i]);
         }
 
-
       return ans;
-
-
-
-
 
     }
 }
