@@ -22,7 +22,7 @@ class Solution {
     return slow;
    }
    public ListNode revrseLL(ListNode head){
-    ListNode prev  = null;
+    ListNode prev  = null; 
     ListNode curr = head;
     while(curr != null){
         ListNode forward = curr.next;
@@ -71,3 +71,6 @@ class Solution {
         
     }
 }
+
+
+
