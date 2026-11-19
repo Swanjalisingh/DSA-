@@ -8,18 +8,53 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+// class Solution {
+//     public ListNode removeNodes(ListNode head) {
+//         if (head == null || head.next == null) {
+//             return head;
+//         }
+
+//         head.next = removeNodes(head.next);
+
+//         if (head.val < head.next.val) {
+//             return head.next;
+//         }
+
+//         return head;
+//     }
+// }
+
+
+
+
 class Solution {
     public ListNode removeNodes(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
+
+        Stack<ListNode> st = new Stack<>();
+
+        ListNode curr = head;
+
+        while (curr != null) {
+
+            while (!st.isEmpty() && st.peek().val < curr.val) {
+                st.pop();
+            }
+
+            st.push(curr);
+
+            curr = curr.next;
         }
 
-        head.next = removeNodes(head.next);
+        ListNode dummy = new ListNode(0);
+        ListNode temp = dummy;
 
-        if (head.val < head.next.val) {
-            return head.next;
+        for (ListNode node : st) {
+            temp.next = node;
+            temp = temp.next;
         }
 
-        return head;
+        temp.next = null;
+
+        return dummy.next;
     }
 }
