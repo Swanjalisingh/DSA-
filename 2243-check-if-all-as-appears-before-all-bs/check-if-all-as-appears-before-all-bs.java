@@ -19,11 +19,26 @@
 
 class Solution {
     public boolean checkString(String s) {
-        char[] arr = s.toCharArray();
+        int acount =0;
+        for(int i =0; i<s.length(); i++){
+            if(s.charAt(i)=='a'){
+                acount++;
+            }
 
-        char[] sorted = arr.clone();
-        Arrays.sort(sorted);
-
-        return Arrays.equals(arr, sorted);
+        }
+        for(int i =0; i<acount;i++){
+            if(s.charAt(i) != 'a'){
+                return false;
+            }
+        }
+        return true;
+        
     }
 }
+
+// char[] arr = s.toCharArray();
+
+//         char[] sorted = arr.clone();
+//         Arrays.sort(sorted);
+
+//         return Arrays.equals(arr, sorted);
